@@ -1,0 +1,44 @@
+Attempt1:
+Just install followings in cmd and restart Excel.
+
+pip install selenium
+pip install request
+pip install openpyxl
+pip install xlwings
+xlwings addin install
+
+
+Attempt2:
+
+1. 
+check version: key the following in python idle:
+
+import xlwings
+xlwings.__version__
+
+the idle should output the version of installed xlwings if it has been installed successfully
+
+2. 
+download corresponding xlwings releases: https://github.com/xlwings/xlwings/releases
+file name: xlwings.xlam
+
+3. 
+open Excel (whatever file)
+
+4. 
+開發人員 -> Excel 增益集 -> 瀏覽 -> 點選剛剛下載的 xlwings.xlam 檔
+
+or 
+
+直接把 xlwings.xlam 移進資料夾 XLSTART 裡面 (%appdata% -> Microsoft -> Excel) 
+
+
+Intro to User:
+
+1. where to open 自動抓最低價.xlsm
+2. how to start the program
+3. how to check process
+4. how to stop the program
+5. it is ok to open other Excel file while running the program
+
+
