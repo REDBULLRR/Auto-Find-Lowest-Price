@@ -1,0 +1,87 @@
+# encoding = utf-8
+# File Name: shopClawers.py
+# Last Changed: 2020.11.26
+# Author: Amy
+# 適用系統：Windows
+
+# version: 4.0
+
+# Important Note:
+# This ver is FOR Windows ONLY.
+#  
+# This .py file stores the methods of Web Clawer on each required online shops
+# Difference with 1st ver: use xlwings rather than openpyxl
+# 自動查最低價.xlsm  file must be in the same directory as this python script
+
+# Module used for crawling each business platform:
+# selenium: momo
+# requests: etmall(json), Find Price, Y購, Y城, PChome(json)
+
+# 更動：
+# 1. Y購爬蟲 Debug
+# 2. color 從 自動查最低價.xlsm 裡面抓取（讓使用者可以自行設定）
+# 3. 把可以設為 local 的 global 變數改為 local，加快執行速度 (ex: urls)
+# 4. is_same_prod 加入 color 的判斷
+# 5. getAmount_etmall 中的 UnboundLocalError: local variable 'amount' referenced before assignment 修復
+
+
+# 急需優化：
+# 1. 提高 3C 類產品的搜尋到的比率
+# Ex: 
+    #Apple Watch S5 GPS 44mm金色鋁金屬錶殼粉運動型錶帶
+    #Apple Watch Series 5 GPS 44mm金色鋁金屬錶殼粉運動型錶帶
+    #Apple iPad Air3 2019 LTE 64GG 10.5吋平板
+    #Apple iPad Air3 2019 WIFI 64GG 10.5吋平板
+    #Apple iPad7 2019 10.2吋 LTE 32G平板    
+    #Apple iPad7 2019 10.2吋 WIFI 32G平板   Apple 2019 iPad 32G WiFi 10.2吋平板電腦
+    #Samsung三星 Tab A (2019) 8吋 32G LTE平板(T295)
+
+# 課題1:keyword making 
+# Ex: (mapping to above)
+    # Apple Watch S5 GPS 44mm
+    # Apple Watch Series 5 GPS 44mm
+    # Apple iPad Air3 2019 LTE 64GG 10.5
+    # Apple iPad Air3 2019 WIFI 64GG 10.5
+    # Apple iPad7 2019 10.2 LTE 32G
+    # Apple iPad7 2019 10.2 WIFI 32G
+    # Samsung Tab A (2019) 8 32G LTE(T295)
+
+# 課題2：要能區分出商品與商品配件
+# 例：
+    # 預購 2019 iPad mini Wi-Fi+行動網路 256GB 7.9吋 平板電腦 晶豪泰3C 高雄 專業攝影
+    # 
+    # AMAZINGthing Apple iPad Mini 2019 (7.9") 專用繪圖保護膜
+
+# 課題3: 要能判斷出相符品名
+# Ex:
+    # Samsung三星 Tab A (2019) 8吋 32G LTE平板(T295)
+    # 【SAMSUNG 三星】Galaxy Tab A 2019 8吋 2G/32G LTE版 四核心平板電腦 SM-T295(送戎布保護套等多重好禮)
+    #
+    # Apple iPad7 2019 10.2吋 WIFI 32G平板
+    # 【Apple 蘋果】2019 iPad 7 平板電腦(10.2吋/Wi-Fi/32G)
+    # 
+    # Apple iPad7 2019 10.2吋 WIFI 32G平板
+    #【Apple 蘋果】2019 iPad 7 平板電腦(10.2吋/Wi-Fi/32G/贈Apple Pencil等好禮)
+    
+# idea:
+    # 收集「辨別用關鍵字」：
+    # mini, pro, wifi (wi-fi), lte
+
+    # 商品わけ策：
+    # removeChinese --> split into a list --> sort the list --> if the list are identical, send true
+
+# 2. 搜尋不到規格完全吻合的商品時，容許使用者用 '____' 來代表未定的數字
+# 已做，測試中
+
+# 未來預計加入：
+# 1. 加入 FP.py 確認商店是否有效（價錢正確與否、商品是否上架中）的確認機制
+# 2. 讓使用者可以勾選要用多嚴謹的搜尋法：
+#   非常嚴格     （工程師視角：規格必須吻合）
+#   嚴格        （工程師視角：只有部份規格吻合。如：入數相同，盒數不同）
+#   普通        （只要是同款商品即可，數量、規格等忽略）
+# 3. 把品名中的空格符號用'*'取代掉，接著用 re.match 來比對兩者，如果有 match，那就接著檢查規格？
+# （但可能會有非相同商品的例外狀況）
+
+# 其他 Note：
+# 老闆之前說的「讓手機關鍵字變得更簡潔」，其實想想，只要使用者輸入的關鍵字簡潔一點不就解決了嗎？
+# MOMO 的最低價抓取精度尚未測試

@@ -704,7 +704,7 @@ def isUrlAvailiable(driver, url, shop, price):
             print('[{}] 找不到價格欄\n'.format(shop))
             return False
         
-        # --- 和 FP 價格相符 --> 給過
+        # --- 和 FP.py 價格相符 --> 給過
         if url_price == price:
             return True
 
@@ -868,9 +868,9 @@ def crawler_on_FP(prod_list, ws, color):
     j=0
     for prod in prod_list:
         j+=1
-        ws['a1'].value = 'FP：{0}/{1}'.format(j,len(prod_list))
+        ws['a1'].value = 'FP.py：{0}/{1}'.format(j,len(prod_list))
         print('搜尋商品：{}\n'.format(re.sub('___',' ',prod)))
-        #result[prod]['FP'] = {}
+        #result[prod]['FP.py'] = {}
         names = []
         urls = []
         prices = []
@@ -989,9 +989,9 @@ def crawler_on_FP_new(prod_list, ws, color): # 20201006 測試：無錯誤訊息
     j=0
     for prod in prod_list:
         j+=1
-        ws['a1'].value = 'FP：{0}/{1}'.format(j,len(prod_list))
+        ws['a1'].value = 'FP.py：{0}/{1}'.format(j,len(prod_list))
         print('搜尋商品：{}\n'.format(re.sub('___',' ',prod)))
-        #result[prod]['FP'] = {}
+        #result[prod]['FP.py'] = {}
         names = []
         urls = []
         prices = []
@@ -1044,7 +1044,7 @@ def crawler_on_FP_new(prod_list, ws, color): # 20201006 測試：無錯誤訊息
 
             found_prices = removeComma_and_toInt(found_prices)
 
-            logging.debug('FP Crawler: the one that has to click in to crawl appear')
+            logging.debug('FP.py Crawler: the one that has to click in to crawl appear')
 
             for i in range(len(found_names)):
                 if is_same_prod(prod, found_names[i],color):
@@ -1065,7 +1065,7 @@ def crawler_on_FP_new(prod_list, ws, color): # 20201006 測試：無錯誤訊息
                             print('發生錯誤，請檢查網路連線\n程式將在十秒後嘗試重新連線。')
                             time.sleep(10)
                     
-                    logging.warning('FP Crawler: This log should not be print out, otherwise there is sth wrong')
+                    logging.warning('FP.py Crawler: This log should not be print out, otherwise there is sth wrong')
 
         # 一般來說會直接用這邊的程式碼
         found_names = [tr.find_all('td')[1].a.text for tr in soup.find('div',id='GoodsGridDiv').find_all('tr')]
@@ -1156,7 +1156,7 @@ def crawler_on_FP_new(prod_list, ws, color): # 20201006 測試：無錯誤訊息
 def crawler_on_FP_faster(prod_list, ws, color): # 待測試
     '''抓取比價網站 Find Price 上的最低價。\n
     和 crawler_on_FP_new 的差別：會直接抓取搜尋結果中第一筆通過商店檢查的商品，而非把整頁的商品都檢查完後才輸出價格最低者。\n
-    FP 的預設搜尋結果是由低價往高價排，所以這麼做應該問題不大。\n
+    FP.py 的預設搜尋結果是由低價往高價排，所以這麼做應該問題不大。\n
     新增了確認網址內容是否正確的功能。'''
     
     fp_mainurl = 'https://www.findprice.com.tw/g/'
@@ -1170,9 +1170,9 @@ def crawler_on_FP_faster(prod_list, ws, color): # 待測試
     j=0
     for prod in prod_list:
         j+=1
-        ws['a1'].value = 'FP：{0}/{1}'.format(j,len(prod_list))
+        ws['a1'].value = 'FP.py：{0}/{1}'.format(j,len(prod_list))
         print('搜尋商品：{}\n'.format(re.sub('___',' ',prod)))
-        #result[prod]['FP'] = {}
+        #result[prod]['FP.py'] = {}
         names = []
         urls = []
         prices = []
