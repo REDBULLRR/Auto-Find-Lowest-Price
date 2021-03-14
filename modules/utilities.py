@@ -524,6 +524,9 @@ def getStatus_Ymall(urls):
 
 def isUrlAvailiable(url, shop, price):
     '''檢查在 FindPrice 上所查到的商品價格是否正確、店面是否存在'''
+    
+    # Amy: 這裡面有一些被 pass 掉的商場販售頁面檢查，當初還來不及全部做完就離職了。（Ｘ）我給它們補了一些垃圾註解。
+    
     logging.info('Start isUrlAvailiable(url, shop, price)')
 
     r = requests.get(url, headers = headers)
@@ -580,7 +583,7 @@ def isUrlAvailiable(url, shop, price):
                 print('[myfone購物]價錢和Find Price 所顯示的不符\n')
 
     elif shop == 'momo購物網':
-        pass
+        pass # 印象中是當初做的時候出了一些 HTML 動態讀取問題， error除不盡，所以就先跳過製作了
 
     elif shop == 'PChome 24h購物':
         try:
@@ -610,11 +613,12 @@ def isUrlAvailiable(url, shop, price):
             return False
 
     elif shop == '蝦皮商城':
+        # 這一個平台是用 selenium 也抓不到商品網頁頁面上的品價，輸出讀取值只會看到一些 copyright 等等，不相干的內容。可能要理解其網頁結構才能有進一步改善。
         pass
 
     elif shop == 'Costco 好市多線上購物':
         pass
-    elif shop == 'udn買東西':
+    elif shop == 'udn買東西':# 單純還沒做
         pass
 
     elif shop == 'friDay購物':
@@ -632,9 +636,9 @@ def isUrlAvailiable(url, shop, price):
             return False
 
     elif shop == 'PChome 商店街':
-        pass
+        pass # 較少出現，還沒做
     elif shop == '家樂福線上購物網':
-        pass
+        pass # 比較少出現，還沒做
     elif shop == 'momo摩天商城':
         try:
             return removeComma_and_toInt(soup.select_one(
@@ -646,7 +650,8 @@ def isUrlAvailiable(url, shop, price):
                 print('[momo摩天商城] 找不到價格欄\n')
             else:
                 print('[momo摩天商城] 價錢和Find Price 所顯示的不符\n')
-
+     
+    # 以下也大致因為較少（大約是 20 筆之中出現 1-2 筆）出現，所以當初還沒做
     elif shop == '森森購物網':
         pass
     elif shop == '愛買線上購物':
